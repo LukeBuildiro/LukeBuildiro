@@ -44,7 +44,7 @@ order by price_difference desc
 
 -- bathroom_toilets
 
-select *
+select products.ean, min(title), min(name),max(price_difference)
 from product_price_snapshot pps2 
 join
 (select *
@@ -72,7 +72,9 @@ or products.alias = 'bathrooms-toilets-rimless-toilets'
 or products.alias = 'bathrooms-toilets-toilet-seats-and-fittings' 
 or products.alias = 'bathrooms-toilets-toilet-units'
 or products.alias = 'bathrooms-toilets-wall-hung-toilets'
-order by price_difference desc 
+group by products.ean
+order by min(price_difference) desc
+limit 100;
 
 
 
@@ -82,6 +84,6 @@ order by price_difference desc
 -- complete price history
 select *
 from product_price_snapshot pps 
-where ean = '4005176923364'
+where ean = '8014140410478'
 order by updated_at asc;
 
