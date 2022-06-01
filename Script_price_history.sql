@@ -44,7 +44,7 @@ order by price_difference desc
 
 -- bathroom_toilets
 
-select products.ean, min(title), min(name),max(price_difference)
+select products.ean, min(title), min(name),max(price_difference) as price_difference
 from product_price_snapshot pps2 
 join
 (select *
