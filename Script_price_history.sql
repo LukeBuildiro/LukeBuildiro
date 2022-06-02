@@ -84,6 +84,40 @@ limit 100;
 -- complete price history
 select *
 from product_price_snapshot pps 
-where ean = '8014140410478'
+where ean = '5010146718436'
+order by updated_at asc;
+
+
+-- bathrooms_baths
+
+select products.ean, min(title), min(name),max(price_difference) as price_difference
+from product_price_snapshot pps2 
+join
+(select *
+from product join product_category_tree pct on product.category_tree_uuid = pct.uuid) as products
+on pps2.ean = products.ean  
+join 
+(select ean, max (max) - min (min) as price_difference
+from product_price_snapshot pps 
+group by ean having max (max) - min (min) <= 200000
+order by price_difference desc ) as prices
+on products.ean = prices.ean
+where 1=2
+or products.alias = 'bathrooms-baths-walk-in-baths' 
+or products.alias = 'bathrooms-baths-single-ended-baths' 
+or products.alias = 'bathrooms-baths-freestanding' 
+or products.alias = 'bathrooms-baths-whirlpool-baths' 
+or products.alias = 'bathrooms-baths-straight-baths' 
+or products.alias = 'bathrooms-baths-double-ended-baths' 
+or products.alias = 'bathrooms-baths-corner-baths' 
+group by products.ean
+order by min(price_difference) desc
+limit 100;
+
+
+-- complete price history
+select *
+from product_price_snapshot pps 
+where ean = '5051752731129'
 order by updated_at asc;
 
